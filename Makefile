@@ -1,5 +1,18 @@
-CC = gcc
-CFLAGS = -Wall -Wextra -std=c99 -Wno-unused-parameter -g -Iinclude
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S),Darwin)
+    CC = clang
+    CFLAGS = -Wall -Wextra -std=c99 -Wno-unused-parameter -g -Iinclude
+else
+    CC = gcc
+    CFLAGS = -Wall -Wextra -std=c99 -Wno-unused-parameter -g -Iinclude
+endif
+
+LDFLAGS =
+
+ifeq ($(UNAME_S),Linux)
+    LDFLAGS += -lm
+endif
 
 SRCDIR = src
 OBJDIR = obj
@@ -16,7 +29,7 @@ all: $(TARGET)
 
 $(TARGET): $(OBJS)
 	@mkdir -p $(BINDIR)
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(OBJDIR)
