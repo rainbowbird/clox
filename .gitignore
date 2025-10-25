@@ -1,3 +1,5 @@
 build/
 .git-credentials
 .vscode
+.cache
+compile_commands.json
